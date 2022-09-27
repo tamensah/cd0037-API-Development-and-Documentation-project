@@ -190,7 +190,7 @@ def create_app(test_config=None):
         
 
         if searchTerm is None:
-             abort(404)
+            abort(404)
 
         try:
                 search_results = Question.query.order_by(Question.id).filter(Question.question.ilike('%{}%'.format(searchTerm))).all()
@@ -270,9 +270,10 @@ def create_app(test_config=None):
             questions = Question.query.order_by(Question.id).all()
         
         elif (int(quiz_category['id']) in range(7)) and (int(quiz_category['id']) != 0):
-            questions = Question.query.order_by(Question.id).filter(Question.category==int(quiz_category['id'])).all()
+            questions = Question.query.order_by(Question.id).filter(Question.id.in_(previous_questions)).all()
+            
 
-        questions_to_play = [question.format() for question in questions if question.id not in previous_questions]
+        questions_to_play = [question.format() for question in questions]
         
         if len(questions_to_play) == 0: 
             
@@ -310,4 +311,3 @@ def create_app(test_config=None):
         return jsonify({"success": False, "error": 400, "message": "bad request"}), 400
 
     return app
-

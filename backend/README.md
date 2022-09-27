@@ -73,7 +73,7 @@ You will need to provide detailed documentation of your API endpoints including 
 
 ### Documentation Example
 
-`GET '/api/v1.0/categories'`
+`GET '/categories'`
 
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
@@ -89,6 +89,222 @@ You will need to provide detailed documentation of your API endpoints including 
   "6": "Sports"
 }
 ```
+
+`GET '/questions?page=${integer}' : example http://127.0.0.1:5000//questions?page=2`
+
+- Fetches a paginated set of questions, a total number of questions, all categories and current category string.
+- Request Arguments: `page` - integer
+- Returns: An object with 10 paginated questions, total questions, object including all categories, and current category string
+
+```json
+{
+    "categories": {
+        "1": "Science",
+        "2": "Art",
+        "3": "Geography",
+        "4": "History",
+        "5": "Entertainment",
+        "6": "Sports"
+    },
+    "currentCategory": null,
+    "questions": [
+        {
+            "answer": "Agra",
+            "category": 3,
+            "difficulty": 2,
+            "id": 15,
+            "question": "The Taj Mahal is located in which Indian city?"
+        },
+        {
+            "answer": "Escher",
+            "category": 2,
+            "difficulty": 1,
+            "id": 16,
+            "question": "Which Dutch graphic artist–initials M C was a creator of optical illusions?"
+        },
+        {
+            "answer": "Mona Lisa",
+            "category": 2,
+            "difficulty": 3,
+            "id": 17,
+            "question": "La Giaconda is better known as what?"
+        },
+        {
+            "answer": "One",
+            "category": 2,
+            "difficulty": 4,
+            "id": 18,
+            "question": "How many paintings did Van Gogh sell in his lifetime?"
+        },
+        {
+            "answer": "Jackson Pollock",
+            "category": 2,
+            "difficulty": 2,
+            "id": 19,
+            "question": "Which American artist was a pioneer of Abstract Expressionism, and a leading exponent of action painting?"
+        },
+        {
+            "answer": "The Liver",
+            "category": 1,
+            "difficulty": 4,
+            "id": 20,
+            "question": "What is the heaviest organ in the human body?"
+        },
+        {
+            "answer": "Alexander Fleming",
+            "category": 1,
+            "difficulty": 3,
+            "id": 21,
+            "question": "Who discovered penicillin?"
+        },
+        {
+            "answer": "Blood",
+            "category": 1,
+            "difficulty": 4,
+            "id": 22,
+            "question": "Hematology is a branch of medicine involving the study of what?"
+        },
+        {
+            "answer": "Scarab",
+            "category": 4,
+            "difficulty": 4,
+            "id": 23,
+            "question": "Which dung beetle was worshipped by the ancient Egyptians?"
+        },
+        {
+            "answer": "kojo mensah",
+            "category": 5,
+            "difficulty": 1,
+            "id": 24,
+            "question": "Who is algebra"
+        }
+    ],
+    "success": true,
+    "totalQuestions": 28
+}
+
+```
+
+`GET '/categories/${id}/questions' : example: http://127.0.0.1:5000//categories/3/questions`
+
+- Fetches questions for a category specified by id request argument
+- Request Arguments: `id` - integer
+- Returns: An object with questions for the specified category, total questions, and current category string
+
+```json
+{
+    "current_category": "Geography",
+    "questions": [
+        {
+            "answer": "Lake Victoria",
+            "category": 3,
+            "difficulty": 2,
+            "id": 13,
+            "question": "What is the largest lake in Africa?"
+        },
+        {
+            "answer": "The Palace of Versailles",
+            "category": 3,
+            "difficulty": 3,
+            "id": 14,
+            "question": "In which royal palace would you find the Hall of Mirrors?"
+        },
+        {
+            "answer": "Agra",
+            "category": 3,
+            "difficulty": 2,
+            "id": 15,
+            "question": "The Taj Mahal is located in which Indian city?"
+        }
+    ],
+    "success": true,
+    "totalQuestions": 3
+}
+
+```
+
+`DELETE '/questions/${id}'`
+
+- Deletes a specified question using the id of the question
+- Request Arguments: `id` - integer
+- Returns: Does not need to return anything besides the appropriate HTTP status code. Optionally can return the id of the question. If you are able to modify the frontend, you can have it remove the question using the id instead of refetching the questions.
+
+---
+
+`POST '/quizzes'`
+
+- Sends a post request in order to get the next question
+- Request Body:
+
+```json
+{
+    'previous_questions': [1, 4, 20, 15]
+    quiz_category': 'current category'
+ }
+```
+
+- Returns: a single new question object
+
+```json
+{
+  "question": {
+    "id": 1,
+    "question": "This is a question",
+    "answer": "This is an answer",
+    "difficulty": 5,
+    "category": 4
+  }
+}
+```
+
+`POST '/questions'`
+
+- Sends a post request in order to add a new question
+- Request Body:
+
+```json
+{
+  "question": "Who is the president of Ghana",
+  "answer": "Nana Akuffo Addo",
+  "difficulty": 1,
+  "category": 3
+}
+```
+
+- Returns: Does not return any new data
+
+---
+
+`POST '/questions/<string:searchTerm>`
+
+- Sends a post request in order to search for a specific question by search term
+- Request Body:
+
+```json
+{
+  "searchTerm": "Hanks"
+}
+```
+
+- Returns: any array of questions, a number of totalQuestions that met the search term and the current category string
+
+```json
+{
+    "questions": [
+        {
+            "answer": "Apollo 13",
+            "category": 5,
+            "difficulty": 4,
+            "id": 2,
+            "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+        }
+    ],
+    "currentCategory": null,
+    "success": true,
+    "totalQuestions": 1
+}
+```
+
 
 ## Testing
 
